@@ -1,0 +1,54 @@
+#!/bin/csh
+# CODE DE COULEURS (r/g/b)
+# Black         0/0/0
+# White         255/255/255
+# Dull green    153/204/51
+# Spring green  51/204/51
+# Grass green   0/153/51
+# Avocado gree  102/153/51
+# Navy blue     0/51/153
+# Blue          0/0/255
+# Yellow        255/255/0
+# Red           255/0/0
+# Brown         153/102/51
+# Jaune SHC1    243/243/199
+# Jaune SHC2    226/226/146
+# Bleu pale SHC 168/223/246
+
+# Nom du fichier .ps a produire
+#set region=-69.00/-55/43.00/52.0
+#set region=-66.00/-58/45.00/49.0  #Southern Gulf for Bob's paper
+#set region=-66.00/-60/45.50/49.0  #Louise
+#set region=-63.00/-59.5/46.00/48.00  #Patrick
+#set region=-66.00/-58/44.00/49.0
+set region=-71.5/-54.90/38.6/52.0 #Whole SOPA domain
+set file=position_bio.ps
+set size=6.8i
+set size2=6.8i/11i
+
+gmtset LABEL_FONT_SIZE 24 ANOT_FONT_SIZE 10
+# Trace de la carte principale incluant l'echelle
+pscoast -R$region -G243/243/199 -Dh  -JM$size -Ia -K -P >! $file
+pscoast -R$region -G243/243/199 -Dh -B1. -JM$size -Ia -W -K -P >! $file
+
+#activate clipping
+#psclip -O -M99999.99 PEI.ll -N -JM -R -K >> $file
+#    psxy -O -M99999.99 tmp/track$i -R -JM -K -W4/0/0/0 >> $file
+psxy -O posi1.dat -R -JM -Sc0.05 -G255/0/0 -K >> $file
+psxy -O posi2.dat -R -JM -Sc0.05 -G0/255/0 -K >> $file
+psxy -O posi3.dat -R -JM -Sc0.05 -G0/0/255 -K >> $file
+psxy -O posi4.dat -R -JM -Sc0.05 -G0/0/0 -K >> $file
+#
+pscoast -R$region -G243/243/199 -Dh -B1. -JM$size -Ia -O -W -K -P >> $file
+#desactivate the clipping 
+#psclip -C -O -K >> $file
+#
+set posi_and_label = '0.2 6.9 20 0 6 5'
+set titre = 'LARVAE POSITIONS'
+echo $posi_and_label $titre >! tttt
+pstext -O -R0/10./0/10.0 -JX$size2 -K tttt -W255/255/255o >> $file
+#
+echo -n '0.2 6.6 15 0 6 5 ' >! bid
+cat bid time.dat >! time2.dat
+pstext -O -R0/10./0/10.0 -JX$size2 -K time2.dat -W255/255/255o >> $file
+echo "showpage" >> $file

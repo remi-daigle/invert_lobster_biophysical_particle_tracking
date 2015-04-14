@@ -1,0 +1,3 @@
+gfortran make_input.f -o make.o
+./make.o $(< ~/Run/bp/behav_param3)
+#vi input_particles

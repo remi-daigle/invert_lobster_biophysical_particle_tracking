@@ -1,0 +1,1 @@
+gfortran -o ~/Run/Particle_tracking.o -lnetcdff -I$NETCDF/include -L$NETCDF/lib -lnetcdf ../divers/util.f ../model/traj3.F90 ../model/update2.F90 ../model/zeros.F90 ../model/Particle_tracking.F90 

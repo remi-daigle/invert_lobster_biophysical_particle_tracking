@@ -1,0 +1,46 @@
+#!/bin/csh
+# CODE DE COULEURS (r/g/b)
+# Black         0/0/0
+# White         255/255/255
+# Dull green    153/204/51
+# Spring green  51/204/51
+# Grass green   0/153/51
+# Avocado gree  102/153/51
+# Navy blue     0/51/153
+# Blue          0/0/255
+# Yellow        255/255/0
+# Red           255/0/0
+# Brown         153/102/51
+# Jaune SHC1    243/243/199
+# Jaune SHC2    226/226/146
+# Bleu pale SHC 168/223/246
+
+# Nom du fichier .ps a produire
+set file=position.ps
+set size=6.8i
+set size2=6.8i/11i
+set region=-71.5/-56.00/45/52.
+#set region=-65.0/-53.50/44/48.
+#set region=-66.0/-53.50/43.5/49.  #green crab
+#set region=-65.5/-58.5/45.50/48.70
+#set region=-63.00/-61.75/45.75/46.30  #Murray harbor area
+
+# Trace de la carte principale incluant l'echelle
+pscoast  -R$region -JM -Dh -C0/0/255 -G243/243/199 -Ia -W -B2.0 -K -P >! $file
+#psbasemap  -R$region -JM$size -Bf0.25a0.25 -K -P >! $file
+psxy -O posi.dat -R -JM -Sc0.06 -G255/0/0 -K >> $file
+#psxy -O -M99999.99 -G243/243/199 Gulf_tricked.ll -R -JM -K -W2 >> $file
+#psxy -O -M99999.99 -G243/243/199 All_polygons_minus_Gulf_coast.ll -R -JM -K -W2 >> $file
+
+#activate clipping
+#
+#set posi_and_label = '0.3 7.8 20 0 6 5'
+set posi_and_label = '0.5 4.00 20 0 6 5'
+set titre = 'PARTICLE POSITIONS'
+echo $posi_and_label $titre >! tttt
+pstext -O -R0/10./0/10.0 -JX$size2 -K tttt -W255/255/255o >> $file
+#
+echo -n '0.5 3.75 14 0 6 5 ' >! bid
+cat bid time.dat >! time2.dat
+pstext -O -R0/10./0/10.0 -JX$size2 -K time2.dat -W255/255/255o >> $file
+echo "showpage" >> $file

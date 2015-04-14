@@ -1,0 +1,37 @@
+rm -rfv ~/track/tmp/*
+rm -rfv ~/Run/bp/*
+for i in $(eval echo {1..$(wc -l <~/track/behav_table)})
+#i=1
+    do
+	echo $i
+        cd ~/Run/
+	sed -n "${i}p" <~/track/behav_table >>~/Run/bp/behav_param
+
+	while read -r yr1 m1 d1 yr2 m2 d2 h1 min1 s1 swim sv Kdiff behav uzl lzl modelrez
+	do
+        echo $yr1 $m1 $d1 $swim $sv $Kdiff $behav $uzl $lzl | awk '{$1=$1}1' OFS="_">>~/Run/bp/behav_param3
+	done < ~/Run/bp/behav_param
+        s=$(< ~/Run/bp/behav_param)
+	echo $s | awk '{$1=$1}1' OFS="_">>~/Run/bp/behav_param2
+        cp ~/Run/bp/behav_param3 ~/Run/bp/3_$(< ~/Run/bp/behav_param3)
+        cp ~/Run/bp/behav_param ~/Run/bp/1_$(< ~/Run/bp/behav_param3)
+        cp ~/Run/bp/behav_param2 ~/Run/bp/2_$(< ~/Run/bp/behav_param3) 	
+
+	cd ~/track/tmp/
+        newdir=$(< ~/Run/bp/behav_param2)
+	mkdir $newdir
+
+        cp ~/Run/stage/stages$(< ~/Run/bp/behav_param3) $newdir/stages
+	# read track
+	cd ~/track/
+	./compile_read_track
+	sleep 20
+        ./read_track.x $(< ~/Run/bp/behav_param3)
+	sleep 20
+
+	rm -rfv ~/Run/bp/*
+  done
+cd ~/Output/
+_now=$(date +"%m_%d_%Y")
+_file="output_$_now.gz"
+tar -zcvf $_file ~/track/tmp/

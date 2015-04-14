@@ -1,0 +1,10 @@
+#clear tmp
+rm -rfv ~/track/tmp/*
+rm -rfv ~/Run/bp/1*
+rm -rfv ~/Run/bp/2*
+rm -rfv ~/Run/bp/3*
+rm -rfv ~/Run/bp/*
+rm -rf ./process.*
+# submit to grid engine
+qsub -cwd -l h_rt=48:0:0 -m e -M daigleremi@gmail.com ./Run/process 
+#./Run/process

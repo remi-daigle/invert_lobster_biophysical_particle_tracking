@@ -1,0 +1,2 @@
+gfortran -L/usr/local/include/ -lnetcdf -lnetcdff -I$NETCDF/include -L$NETCDF/lib ../Grid/OPA_GET_XY_LL.F90 ../Grid/ll_to_xy_NEMO.F90 ../divers/util.f read_track.f -o read_track.x
+./read_track.x

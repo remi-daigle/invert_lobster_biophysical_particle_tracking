@@ -1,0 +1,2 @@
+gfortran -L/usr/local/include/  ../Grid/OPA_GET_XY_LL.F90 ../Grid/ll_to_xy_NEMO.F90 trans_ll_to_xy.f -o trans.x -lnetcdf -lnetcdff -I$NETCDF/include -L$NETCDF/lib
+./trans.x $(< ~/Run/bp/behav_param3)

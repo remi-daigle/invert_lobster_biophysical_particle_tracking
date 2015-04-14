@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -lt 2 ] ; then
+  echo "Usage: anim output.gif frame ..." 1>&2
+  exit 1
+  fi
+
+OUT=$1
+shift
+IMGS="$*"
+
+DELAY=1     # delay between frames, in hundreth of sec
+LOOP=10       # number of loops to execute, 0 to loop indefinitely
+DENSITY=200  # image density in dots per inch, usefuill only for postscript images
+
+#convert -verbose -delay $DELAY -loop $LOOP -density  $DENSITY $IMGS $OUT
+convert -verbose -delay $DELAY -loop $LOOP $IMGS $OUT

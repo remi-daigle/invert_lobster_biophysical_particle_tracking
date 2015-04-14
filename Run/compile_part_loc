@@ -1,0 +1,3 @@
+gfortran part_loc.f -o part_loc.o
+#./part_loc.o
+#vi input_particles

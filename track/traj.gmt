@@ -1,0 +1,44 @@
+#!/bin/csh
+# CODE DE COULEURS (r/g/b)
+# Black         0/0/0
+# White         255/255/255
+# Dull green    153/204/51
+# Spring green  51/204/51
+# Grass green   0/153/51
+# Avocado gree  102/153/51
+# Navy blue     0/51/153
+# Blue          0/0/255
+# Yellow        255/255/0
+# Red           255/0/0
+# Brown         153/102/51
+# Jaune SHC1    243/243/199
+# Jaune SHC2    226/226/146
+# Bleu pale SHC 168/223/246
+
+# Nom du fichier .ps a produire
+set file=track.ps
+set region=-71.5/-54.90/38.6/52. #Whole SOpa domain
+#set region=-71/-52/42:00/52:00  #Whole Gulf
+#set region=-65.00/-61.5/45.50/47.50 #Northumberland Strait
+
+# Trace de la carte principale incluant l'echelle
+#pscoast  -R-71/-56/42:00/52:00 -JM6.8 -Dh -Gp300/86F31/31/31B255/255/255  -Ia -W -B2.0g1.0 -K -P >! $file
+pscoast  -R$region -JM -Dh -C0/0/255 -G243/243/199 -Ia -W -B2.0 -K -P >! $file
+#
+set i = 1
+set fin = 1110
+while ( $i <=  $fin )
+    echo $i
+#    psxy -O -m99999.99 tmp/track$i -R -JM -K -W4/0/0/0 >> $file
+    psxy -O -m99999.99 tmp/track$i -R -JM -K  >> $file
+    head -1 tmp/track$i >! tttt
+    psxy -O tttt -R -JM -Sc0.05 -G255/0/0 -K >> $file
+#    @ i = $i + 1
+    @ i = $i + 50  #step by then
+end
+#
+#
+pstext -O -R -JM -K -W255/255/255o << END >> $file
+-69.8 52.50 20 0 6 5 TRAJECTORIES
+END
+echo "showpage" >> $file

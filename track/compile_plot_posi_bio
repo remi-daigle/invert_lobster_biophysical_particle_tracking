@@ -1,0 +1,1 @@
+pgf90 -L/usr/local/include/ -lnetcdf -lnetcdff  ../divers/util.f ../Grid/OPA_GET_XY_LL.F90 ../Grid/ll_to_xy_NEMO.F90 plot_posi_bio.f
